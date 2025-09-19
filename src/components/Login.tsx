@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Smartphone, Lock, Globe } from "lucide-react";
+import { Smartphone, Lock, Globe, Leaf } from "lucide-react";
 import farmerProfile from "@/assets/farmer-profile.jpg";
 
 interface LoginProps {
@@ -22,82 +21,97 @@ const Login = ({ onLogin }: LoginProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-accent/20 to-secondary/30 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg border-0 bg-card/95 backdrop-blur-sm">
-        <CardHeader className="text-center pb-2">
-          <div className="mx-auto mb-4 w-24 h-24 rounded-full overflow-hidden shadow-card">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-lg">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          {/* Farmer Profile Image */}
+          <div className="mx-auto mb-6 w-32 h-32 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-xl">
             <img 
               src={farmerProfile} 
-              alt="Smart Krishi Logo" 
+              alt="Smart Krishi Farmer" 
               className="w-full h-full object-cover"
             />
           </div>
-          <h1 className="text-3xl font-bold text-primary mb-2">Smart Krishi</h1>
-          <p className="text-muted-foreground">स्मार्ट कृषि - Modern Farming Solutions</p>
-        </CardHeader>
-        
-        <CardContent className="space-y-6">
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="flex items-center gap-2 text-base">
-                <Smartphone className="w-4 h-4 text-primary" />
-                Phone Number / ID
-              </Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="Enter your phone number"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="h-12 text-base"
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="password" className="flex items-center gap-2 text-base">
-                <Lock className="w-4 h-4 text-primary" />
-                Password / PIN
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-12 text-base"
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label className="flex items-center gap-2 text-base">
-                <Globe className="w-4 h-4 text-primary" />
-                Language / भाषा
-              </Label>
-              <Select value={language} onValueChange={setLanguage}>
-                <SelectTrigger className="h-12 text-base">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="hi">हिंदी (Hindi)</SelectItem>
-                  <SelectItem value="te">తెలుగు (Telugu)</SelectItem>
-                  <SelectItem value="ta">தமிழ் (Tamil)</SelectItem>
-                  <SelectItem value="bn">বাংলা (Bengali)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <Button 
-              type="submit" 
-              className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-primary to-primary-glow hover:from-primary-glow hover:to-primary shadow-button transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
-            >
-              Login / लॉगिन करें
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+          
+          {/* Brand Title */}
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Leaf className="w-8 h-8 text-primary" />
+            <h1 className="text-4xl font-bold text-primary">Smart Krishi</h1>
+          </div>
+          <p className="text-lg text-primary/70 font-medium">Intelligent Farming Dashboard</p>
+        </div>
+
+        {/* Login Form Container */}
+        <div className="space-y-6">
+          {/* Language Selector */}
+          <div className="bg-white rounded-2xl p-6 shadow-lg border border-white/50">
+            <Label className="flex items-center gap-2 text-base font-semibold text-gray-700 mb-3">
+              <Globe className="w-5 h-5 text-primary" />
+              Select Language / भाषा चुनें
+            </Label>
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl">
+                <SelectValue placeholder="English (English)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English (English)</SelectItem>
+                <SelectItem value="hi">हिंदी (Hindi)</SelectItem>
+                <SelectItem value="te">తెలుగు (Telugu)</SelectItem>
+                <SelectItem value="ta">தமிழ் (Tamil)</SelectItem>
+                <SelectItem value="bn">বাংলা (Bengali)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Login Form */}
+          <div className="bg-white rounded-2xl p-6 shadow-lg border border-white/50">
+            <form onSubmit={handleLogin} className="space-y-6">
+              {/* Phone Number Field */}
+              <div className="space-y-3">
+                <Label htmlFor="phone" className="flex items-center gap-2 text-base font-semibold text-gray-700">
+                  <Smartphone className="w-5 h-5 text-primary" />
+                  Phone Number / फोन नंबर
+                </Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl px-4 placeholder:text-gray-400"
+                  required
+                />
+              </div>
+              
+              {/* Password Field */}
+              <div className="space-y-3">
+                <Label htmlFor="password" className="flex items-center gap-2 text-base font-semibold text-gray-700">
+                  <Lock className="w-5 h-5 text-primary" />
+                  Password (PIN) / पासवर्ड
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your PIN"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl px-4 placeholder:text-gray-400"
+                  required
+                />
+              </div>
+              
+              {/* Login Button */}
+              <Button 
+                type="submit" 
+                className="w-full h-16 text-xl font-bold bg-primary hover:bg-primary/90 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] text-white"
+              >
+                Login / लॉगिन करें
+              </Button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
