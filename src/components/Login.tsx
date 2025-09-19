@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Smartphone, Lock, Globe, Leaf } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import farmerProfile from "@/assets/farmer-profile.jpg";
 
 interface LoginProps {
@@ -13,7 +14,7 @@ interface LoginProps {
 const Login = ({ onLogin }: LoginProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [language, setLanguage] = useState("en");
+  const { language, setLanguage, t } = useLanguage();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,9 +38,11 @@ const Login = ({ onLogin }: LoginProps) => {
           {/* Brand Title */}
           <div className="flex items-center justify-center gap-2 mb-3">
             <Leaf className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold text-primary">Smart Krishi</h1>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-dark to-primary-glow bg-clip-text text-transparent">
+              {t('smartKrishi')}
+            </h1>
           </div>
-          <p className="text-lg text-primary/70 font-medium">Intelligent Farming Dashboard</p>
+          <p className="text-lg text-primary/70 font-medium">{t('intelligentFarming')}</p>
         </div>
 
         {/* Login Form Container */}
@@ -48,11 +51,11 @@ const Login = ({ onLogin }: LoginProps) => {
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-white/50">
             <Label className="flex items-center gap-2 text-base font-semibold text-gray-700 mb-3">
               <Globe className="w-5 h-5 text-primary" />
-              Select Language / भाषा चुनें
+              {t('selectLanguage')}
             </Label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl">
-                <SelectValue placeholder="English (English)" />
+            <Select value={language} onValueChange={(value: any) => setLanguage(value)}>
+              <SelectTrigger className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl hover:bg-gray-100 transition-colors">
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="en">English (English)</SelectItem>
@@ -71,15 +74,15 @@ const Login = ({ onLogin }: LoginProps) => {
               <div className="space-y-3">
                 <Label htmlFor="phone" className="flex items-center gap-2 text-base font-semibold text-gray-700">
                   <Smartphone className="w-5 h-5 text-primary" />
-                  Phone Number / फोन नंबर
+                  {t('phoneNumber')}
                 </Label>
                 <Input
                   id="phone"
                   type="tel"
-                  placeholder="Enter your phone number"
+                  placeholder={t('enterPhone')}
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl px-4 placeholder:text-gray-400"
+                  className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl px-4 placeholder:text-gray-400 hover:bg-gray-100 focus:bg-white transition-colors"
                   required
                 />
               </div>
@@ -88,15 +91,15 @@ const Login = ({ onLogin }: LoginProps) => {
               <div className="space-y-3">
                 <Label htmlFor="password" className="flex items-center gap-2 text-base font-semibold text-gray-700">
                   <Lock className="w-5 h-5 text-primary" />
-                  Password (PIN) / पासवर्ड
+                  {t('password')}
                 </Label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Enter your PIN"
+                  placeholder={t('enterPin')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl px-4 placeholder:text-gray-400"
+                  className="h-14 text-base bg-gray-50 border-gray-200 rounded-xl px-4 placeholder:text-gray-400 hover:bg-gray-100 focus:bg-white transition-colors"
                   required
                 />
               </div>
@@ -104,9 +107,9 @@ const Login = ({ onLogin }: LoginProps) => {
               {/* Login Button */}
               <Button 
                 type="submit" 
-                className="w-full h-16 text-xl font-bold bg-primary hover:bg-primary/90 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] text-white"
+                className="w-full h-16 text-xl font-bold bg-gradient-to-r from-primary-dark via-primary to-primary-glow hover:from-primary hover:to-primary-dark rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] text-white"
               >
-                Login / लॉगिन करें
+                {t('login')}
               </Button>
             </form>
           </div>
