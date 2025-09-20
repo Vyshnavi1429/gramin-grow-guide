@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from "recharts";
 import { TrendingUp, BarChart3, MapPin, Crop } from "lucide-react";
+import { indianStates, cropTypes, seasons, soilFertilityLevels } from "@/data/constants";
 
 const PredictionPage = () => {
   const [predictionType, setPredictionType] = useState("my-crop");
@@ -13,6 +14,8 @@ const PredictionPage = () => {
     state: "",
     acres: "",
     cropType: "",
+    season: "",
+    soilFertility: "",
   });
 
   // Sample prediction data
@@ -55,7 +58,7 @@ const PredictionPage = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handlePredict} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="state">State / राज्य</Label>
                 <Select value={formData.state} onValueChange={(value) => setFormData({...formData, state: value})}>
@@ -63,11 +66,11 @@ const PredictionPage = () => {
                     <SelectValue placeholder="Select state" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="punjab">Punjab</SelectItem>
-                    <SelectItem value="haryana">Haryana</SelectItem>
-                    <SelectItem value="up">Uttar Pradesh</SelectItem>
-                    <SelectItem value="bihar">Bihar</SelectItem>
-                    <SelectItem value="maharashtra">Maharashtra</SelectItem>
+                    {indianStates.map((state) => (
+                      <SelectItem key={state} value={state.toLowerCase().replace(/\s+/g, '-')}>
+                        {state}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -88,11 +91,41 @@ const PredictionPage = () => {
                     <SelectValue placeholder="Select crop" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="rice">Rice / चावल</SelectItem>
-                    <SelectItem value="wheat">Wheat / गेहूं</SelectItem>
-                    <SelectItem value="corn">Corn / मक्का</SelectItem>
-                    <SelectItem value="soybean">Soybean / सोयाबीन</SelectItem>
-                    <SelectItem value="cotton">Cotton / कपास</SelectItem>
+                    {cropTypes.slice(0, 10).map((crop) => (
+                      <SelectItem key={crop} value={crop.split(' / ')[0].toLowerCase()}>
+                        {crop}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="season">Season / मौसम</Label>
+                <Select value={formData.season} onValueChange={(value) => setFormData({...formData, season: value})}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select season" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {seasons.map((season) => (
+                      <SelectItem key={season} value={season.split(' / ')[0].toLowerCase()}>
+                        {season}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="soilFertility">Soil Fertility / मिट्टी की उर्वरता</Label>
+                <Select value={formData.soilFertility} onValueChange={(value) => setFormData({...formData, soilFertility: value})}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select fertility level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {soilFertilityLevels.map((level) => (
+                      <SelectItem key={level} value={level.split(' / ')[0].toLowerCase()}>
+                        {level}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>

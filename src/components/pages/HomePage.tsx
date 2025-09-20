@@ -1,20 +1,26 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from "recharts";
-import { TrendingUp, Droplets, Sun, AlertTriangle, Heart, MessageCircle } from "lucide-react";
+import { TrendingUp, Droplets, Sun, AlertTriangle, Heart, MessageCircle, Wheat } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useCrop } from "@/contexts/CropContext";
 import heroImage from "@/assets/hero-agriculture.jpg";
 import farmerProfile from "@/assets/farmer-profile.jpg";
 
 const HomePage = () => {
   const { t } = useLanguage();
-  // Sample data for charts
-  const cropData = [
-    { name: "Rice", expected: 40, actual: 35 },
-    { name: "Wheat", expected: 30, actual: 32 },
-    { name: "Corn", expected: 25, actual: 28 },
-    { name: "Soybean", expected: 20, actual: 18 },
-  ];
+  const { registeredCrops } = useCrop();
+  
+  // Chart data for registered crops or default empty state
+  const cropData = registeredCrops.length > 0 
+    ? registeredCrops.map((crop, index) => ({
+        name: crop.cropType.charAt(0).toUpperCase() + crop.cropType.slice(1),
+        expected: Math.floor(Math.random() * 30) + 20, // Simulated expected yield
+        actual: crop.yield || Math.floor(Math.random() * 25) + 10, // Actual yield or simulated
+      }))
+    : [
+        { name: "No Crops", expected: 0, actual: 0 }
+      ];
 
   const marketData = [
     { day: "Mon", rice: 2500, wheat: 2200 },
@@ -38,8 +44,10 @@ const HomePage = () => {
       <Card className="shadow-xl border-2 border-primary/20 bg-gradient-to-br from-white to-primary/5">
         <CardHeader className="bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-t-lg">
           <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="w-6 h-6 text-primary" />
-            <span className="text-xl font-bold text-primary">{t('cropsOverview')}</span>
+            <Wheat className="w-6 h-6 text-primary" />
+            <span className="text-xl font-bold text-primary">
+              {registeredCrops.length > 0 ? "Registered Crops Overview / पंजीकृत फसल अवलोकन" : "No Registered Crops / कोई पंजीकृत फसल नहीं"}
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
@@ -72,6 +80,12 @@ const HomePage = () => {
               />
             </BarChart>
           </ResponsiveContainer>
+          {registeredCrops.length === 0 && (
+            <div className="text-center mt-4 p-4 bg-muted/30 rounded-lg">
+              <p className="text-muted-foreground font-medium">Register your first crop to see data here.</p>
+              <p className="text-sm text-muted-foreground">अपना पहला फसल पंजीकृत करें यहाँ डेटा देखने के लिए।</p>
+            </div>
+          )}
         </CardContent>
       </Card>
 

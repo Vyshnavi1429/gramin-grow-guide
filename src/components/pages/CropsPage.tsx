@@ -6,10 +6,14 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Calendar, MapPin, Droplets, Bug, CheckCircle, AlertCircle } from "lucide-react";
+import { Plus, Calendar, MapPin, Droplets, Bug, AlertCircle } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { useCrop } from "@/contexts/CropContext";
+import { indianStates, cropTypes, seasons, soilFertilityLevels } from "@/data/constants";
 import cropsImage from "@/assets/crops-variety.jpg";
 
 const CropsPage = () => {
+  const { registeredCrops, addCrop } = useCrop();
   const [selectedCrop, setSelectedCrop] = useState("");
   const [formData, setFormData] = useState({
     farmerName: "",
@@ -22,41 +26,32 @@ const CropsPage = () => {
     harvestDate: "",
   });
 
-  // Sample registered crops data
-  const registeredCrops = [
-    {
-      id: 1,
-      name: "Rice",
-      plantingDate: "2024-06-15",
-      harvestDate: "2024-11-15",
-      daysFromPlanting: 45,
-      fertilizer: { name: "NPK 20-20-20", qty: "50kg", applied: true },
-      pesticide: { name: "Carbofuran", qty: "2L", applied: false },
-      workDone: {
-        soilPlugging: true,
-        wasteRemoval: true,
-        yieldRecording: false,
-      },
-      yield: 35,
-      status: "Growing"
-    },
-    {
-      id: 2,
-      name: "Wheat",
-      plantingDate: "2024-01-10",
-      harvestDate: "2024-05-10",
-      daysFromPlanting: 120,
-      fertilizer: { name: "DAP", qty: "75kg", applied: true },
-      pesticide: { name: "Chlorpyrifos", qty: "1.5L", applied: true },
-      workDone: {
-        soilPlugging: true,
-        wasteRemoval: true,
-        yieldRecording: true,
-      },
-      yield: 42,
-      status: "Harvested"
-    },
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.farmerName && formData.state && formData.landArea && formData.cropType && formData.soilFertility && formData.season) {
+      addCrop(formData);
+      setFormData({
+        farmerName: "",
+        state: "",
+        landArea: "",
+        soilFertility: "",
+        season: "",
+        cropType: "",
+        plantingDate: "",
+        harvestDate: "",
+      });
+      toast({
+        title: "Crop Registered Successfully!",
+        description: "Your crop has been added to the registered crops list.",
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
+    }
+  };
 
   const suggestions = [
     { icon: Droplets, text: "Water needed tomorrow", type: "info", textHi: "कल पानी की जरूरत" },
@@ -86,142 +81,169 @@ const CropsPage = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="farmerName">Farmer Name / किसान का नाम</Label>
-                  <Input
-                    id="farmerName"
-                    value={formData.farmerName}
-                    onChange={(e) => setFormData({...formData, farmerName: e.target.value})}
-                    placeholder="Enter farmer name"
-                  />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="farmerName">Farmer Name / किसान का नाम *</Label>
+                    <Input
+                      id="farmerName"
+                      value={formData.farmerName}
+                      onChange={(e) => setFormData({...formData, farmerName: e.target.value})}
+                      placeholder="Enter farmer name"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="state">State / राज्य *</Label>
+                    <Select value={formData.state} onValueChange={(value) => setFormData({...formData, state: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select state" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {indianStates.map((state) => (
+                          <SelectItem key={state} value={state.toLowerCase().replace(/\s+/g, '-')}>
+                            {state}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="landArea">Land Area (acres) / भूमि क्षेत्र *</Label>
+                    <Input
+                      id="landArea"
+                      type="number"
+                      value={formData.landArea}
+                      onChange={(e) => setFormData({...formData, landArea: e.target.value})}
+                      placeholder="Enter land area"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="soilFertility">Soil Fertility / मिट्टी की उर्वरता *</Label>
+                    <Select value={formData.soilFertility} onValueChange={(value) => setFormData({...formData, soilFertility: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select fertility level" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {soilFertilityLevels.map((level) => (
+                          <SelectItem key={level} value={level.split(' / ')[0].toLowerCase()}>
+                            {level}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="season">Season / मौसम *</Label>
+                    <Select value={formData.season} onValueChange={(value) => setFormData({...formData, season: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select season" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {seasons.map((season) => (
+                          <SelectItem key={season} value={season.split(' / ')[0].toLowerCase()}>
+                            {season}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="cropType">Crop Type / फसल प्रकार *</Label>
+                    <Select value={formData.cropType} onValueChange={(value) => setFormData({...formData, cropType: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select crop" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cropTypes.map((crop) => (
+                          <SelectItem key={crop} value={crop.split(' / ')[0].toLowerCase()}>
+                            {crop}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="state">State / राज्य</Label>
-                  <Select value={formData.state} onValueChange={(value) => setFormData({...formData, state: value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select state" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="punjab">Punjab</SelectItem>
-                      <SelectItem value="haryana">Haryana</SelectItem>
-                      <SelectItem value="up">Uttar Pradesh</SelectItem>
-                      <SelectItem value="bihar">Bihar</SelectItem>
-                    </SelectContent>
-                  </Select>
+                
+                <div className="space-y-2">
+                  <Label>Upload Soil Photo / मिट्टी की फोटो अपलोड करें</Label>
+                  <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                    <img src={cropsImage} alt="Sample" className="w-24 h-24 mx-auto mb-2 rounded-lg object-cover" />
+                    <p className="text-sm text-muted-foreground">Click to upload soil photo</p>
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="landArea">Land Area (acres) / भूमि क्षेत्र</Label>
-                  <Input
-                    id="landArea"
-                    type="number"
-                    value={formData.landArea}
-                    onChange={(e) => setFormData({...formData, landArea: e.target.value})}
-                    placeholder="Enter land area"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="cropType">Crop Type / फसल प्रकार</Label>
-                  <Select value={formData.cropType} onValueChange={(value) => setFormData({...formData, cropType: value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select crop" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rice">Rice / चावल</SelectItem>
-                      <SelectItem value="wheat">Wheat / गेहूं</SelectItem>
-                      <SelectItem value="corn">Corn / मक्का</SelectItem>
-                      <SelectItem value="soybean">Soybean / सोयाबीन</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <Label>Upload Soil Photo / मिट्टी की फोटो अपलोड करें</Label>
-                <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                  <img src={cropsImage} alt="Sample" className="w-24 h-24 mx-auto mb-2 rounded-lg object-cover" />
-                  <p className="text-sm text-muted-foreground">Click to upload soil photo</p>
-                </div>
-              </div>
-              
-              <Button className="w-full bg-gradient-to-r from-primary to-primary-glow">
-                Submit Registration / रजिस्ट्रेशन सबमिट करें
-              </Button>
+                
+                <Button type="submit" className="w-full bg-gradient-to-r from-primary to-primary-glow">
+                  Submit Registration / रजिस्ट्रेशन सबमिट करें
+                </Button>
+              </form>
             </CardContent>
           </Card>
         </TabsContent>
 
         {/* Registered Crops */}
         <TabsContent value="registered" className="space-y-4">
-          {registeredCrops.map((crop) => (
-            <Card key={crop.id} className="shadow-card">
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <CardTitle className="flex items-center gap-2">
-                    <span>{crop.name}</span>
-                    <Badge variant={crop.status === "Harvested" ? "default" : "secondary"}>
-                      {crop.status}
-                    </Badge>
-                  </CardTitle>
-                  <span className="text-sm text-muted-foreground">
-                    Day {crop.daysFromPlanting}
-                  </span>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <h4 className="font-semibold flex items-center gap-2">
-                      <Bug className="w-4 h-4 text-primary" />
-                      Fertilizer / उर्वरक
-                    </h4>
-                    <p className="text-sm">{crop.fertilizer.name}</p>
-                    <p className="text-xs text-muted-foreground">{crop.fertilizer.qty}</p>
-                    <Badge variant={crop.fertilizer.applied ? "default" : "secondary"}>
-                      {crop.fertilizer.applied ? "Applied" : "Pending"}
-                    </Badge>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="font-semibold flex items-center gap-2">
-                      <Bug className="w-4 h-4 text-success" />
-                      Pesticide / कीटनाशक
-                    </h4>
-                    <p className="text-sm">{crop.pesticide.name}</p>
-                    <p className="text-xs text-muted-foreground">{crop.pesticide.qty}</p>
-                    <Badge variant={crop.pesticide.applied ? "default" : "secondary"}>
-                      {crop.pesticide.applied ? "Applied" : "Pending"}
-                    </Badge>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="font-semibold">Work Done / काम पूरा</h4>
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className={`w-4 h-4 ${crop.workDone.soilPlugging ? 'text-success' : 'text-muted-foreground'}`} />
-                        <span className="text-sm">Soil Plugging</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className={`w-4 h-4 ${crop.workDone.wasteRemoval ? 'text-success' : 'text-muted-foreground'}`} />
-                        <span className="text-sm">Waste Removal</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className={`w-4 h-4 ${crop.workDone.yieldRecording ? 'text-success' : 'text-muted-foreground'}`} />
-                        <span className="text-sm">Yield Recording</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="pt-2 border-t">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold">Current Yield / वर्तमान उपज:</span>
-                    <span className="text-lg font-bold text-primary">{crop.yield} quintals</span>
-                  </div>
-                </div>
+          {registeredCrops.length === 0 ? (
+            <Card className="shadow-card">
+              <CardContent className="p-8 text-center">
+                <p className="text-muted-foreground">No crops registered yet. / अभी तक कोई फसल पंजीकृत नहीं है।</p>
+                <p className="text-sm text-muted-foreground mt-2">Register your first crop in the Registration tab.</p>
               </CardContent>
             </Card>
-          ))}
+          ) : (
+            registeredCrops.map((crop) => (
+              <Card key={crop.id} className="shadow-card">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="flex items-center gap-2">
+                      <span>{crop.cropType}</span>
+                      <Badge variant={crop.status === "Harvested" ? "default" : "secondary"}>
+                        {crop.status}
+                      </Badge>
+                    </CardTitle>
+                    <span className="text-sm text-muted-foreground">
+                      {crop.registrationDate}
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <h4 className="font-semibold flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-primary" />
+                        Farm Details / खेत विवरण
+                      </h4>
+                      <p className="text-sm">Farmer: {crop.farmerName}</p>
+                      <p className="text-sm">State: {crop.state}</p>
+                      <p className="text-sm">Land Area: {crop.landArea} acres</p>
+                      <p className="text-sm">Season: {crop.season}</p>
+                      <p className="text-sm">Soil Fertility: {crop.soilFertility}</p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h4 className="font-semibold flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-success" />
+                        Crop Status / फसल स्थिति
+                      </h4>
+                      <p className="text-sm">Crop Type: {crop.cropType}</p>
+                      <p className="text-sm">Registration Date: {crop.registrationDate}</p>
+                      <Badge variant={crop.status === "Planted" ? "secondary" : "default"}>
+                        {crop.status}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-2 border-t">
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold">Expected Yield / अपेक्षित उपज:</span>
+                      <span className="text-lg font-bold text-primary">{crop.yield} quintals</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </TabsContent>
 
         {/* AI Suggestions */}
