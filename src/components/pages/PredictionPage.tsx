@@ -18,36 +18,6 @@ const PredictionPage = () => {
     soilFertility: "",
   });
 
-  // Dynamic prediction data based on user input
-  const generateMyCropData = () => {
-    if (!hasValidInputs) {
-      return [
-        { month: "Jan", expected: 0, actual: 0 },
-        { month: "Feb", expected: 0, actual: 0 },
-        { month: "Mar", expected: 0, actual: 0 },
-        { month: "Apr", expected: 0, actual: 0 },
-        { month: "May", expected: 0, actual: 0 },
-        { month: "Jun", expected: 0, actual: 0 },
-      ];
-    }
-
-    const yieldPerAcre = predictedYield / parseFloat(formData.acres);
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-    
-    return months.map((month, index) => {
-      const expectedYield = Math.round((yieldPerAcre * 0.6 + (yieldPerAcre * 0.4 * (index + 1) / 6)) * 10) / 10;
-      const actualYield = index < 5 ? Math.round(expectedYield * (0.85 + Math.random() * 0.25) * 10) / 10 : 0; // Future prediction
-      
-      return {
-        month,
-        expected: expectedYield,
-        actual: actualYield
-      };
-    });
-  };
-
-  const myCropData = generateMyCropData();
-
   const stateData = [
     { crop: "Rice", actual: 45, predicted: 48 },
     { crop: "Wheat", actual: 38, predicted: 42 },
@@ -102,6 +72,36 @@ const PredictionPage = () => {
 
   const predictedYield = calculatePredictedYield();
   const hasValidInputs = formData.acres && formData.cropType && formData.season && formData.soilFertility;
+
+  // Dynamic prediction data based on user input
+  const generateMyCropData = () => {
+    if (!hasValidInputs) {
+      return [
+        { month: "Jan", expected: 0, actual: 0 },
+        { month: "Feb", expected: 0, actual: 0 },
+        { month: "Mar", expected: 0, actual: 0 },
+        { month: "Apr", expected: 0, actual: 0 },
+        { month: "May", expected: 0, actual: 0 },
+        { month: "Jun", expected: 0, actual: 0 },
+      ];
+    }
+
+    const yieldPerAcre = predictedYield / parseFloat(formData.acres);
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    
+    return months.map((month, index) => {
+      const expectedYield = Math.round((yieldPerAcre * 0.6 + (yieldPerAcre * 0.4 * (index + 1) / 6)) * 10) / 10;
+      const actualYield = index < 5 ? Math.round(expectedYield * (0.85 + Math.random() * 0.25) * 10) / 10 : 0; // Future prediction
+      
+      return {
+        month,
+        expected: expectedYield,
+        actual: actualYield
+      };
+    });
+  };
+
+  const myCropData = generateMyCropData();
 
   const handlePredict = (e: React.FormEvent) => {
     e.preventDefault();
