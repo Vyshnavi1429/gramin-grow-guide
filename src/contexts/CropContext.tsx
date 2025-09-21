@@ -18,15 +18,12 @@ export interface RegisteredCrop {
 interface CropContextType {
   registeredCrops: RegisteredCrop[];
   addCrop: (crop: Omit<RegisteredCrop, 'id' | 'registrationDate' | 'yield' | 'status'>) => void;
-  isProfileCompleted: boolean;
-  setProfileCompleted: (completed: boolean) => void;
 }
 
 const CropContext = createContext<CropContextType | undefined>(undefined);
 
 export const CropProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [registeredCrops, setRegisteredCrops] = useState<RegisteredCrop[]>([]);
-  const [isProfileCompleted, setIsProfileCompleted] = useState(false);
 
   const addCrop = (cropData: Omit<RegisteredCrop, 'id' | 'registrationDate' | 'yield' | 'status'>) => {
     const newCrop: RegisteredCrop = {
@@ -39,16 +36,10 @@ export const CropProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setRegisteredCrops(prev => [...prev, newCrop]);
   };
 
-  const setProfileCompleted = (completed: boolean) => {
-    setIsProfileCompleted(completed);
-  };
-
   return (
     <CropContext.Provider value={{
       registeredCrops,
-      addCrop,
-      isProfileCompleted,
-      setProfileCompleted
+      addCrop
     }}>
       {children}
     </CropContext.Provider>
