@@ -36,9 +36,56 @@ const PredictionPage = () => {
     { crop: "Cotton", actual: 18, predicted: 22 },
   ];
 
+  // Crop yield prediction algorithm based on input parameters
+  const calculatePredictedYield = () => {
+    if (!formData.acres || !formData.cropType || !formData.season || !formData.soilFertility) {
+      return 0;
+    }
+
+    // Base yield per acre for different crops (in quintals)
+    const baseYields: { [key: string]: number } = {
+      'rice': 25,
+      'wheat': 30,
+      'corn': 35,
+      'soybean': 20,
+      'cotton': 15,
+      'sugarcane': 500,
+      'pulses': 12,
+      'millets': 18,
+      'barley': 22,
+      'mustard': 14
+    };
+
+    // Season multipliers
+    const seasonMultipliers: { [key: string]: number } = {
+      'kharif': 1.0,
+      'rabi': 1.2,
+      'summer': 0.8
+    };
+
+    // Soil fertility multipliers
+    const fertilityMultipliers: { [key: string]: number } = {
+      'low': 0.7,
+      'medium': 1.0,
+      'high': 1.3
+    };
+
+    const baseYield = baseYields[formData.cropType] || 20;
+    const seasonMultiplier = seasonMultipliers[formData.season] || 1.0;
+    const fertilityMultiplier = fertilityMultipliers[formData.soilFertility] || 1.0;
+    
+    const yieldPerAcre = baseYield * seasonMultiplier * fertilityMultiplier;
+    const totalYield = yieldPerAcre * parseFloat(formData.acres);
+    
+    return Math.round(totalYield * 10) / 10; // Round to 1 decimal place
+  };
+
+  const predictedYield = calculatePredictedYield();
+  const hasValidInputs = formData.acres && formData.cropType && formData.season && formData.soilFertility;
+
   const handlePredict = (e: React.FormEvent) => {
     e.preventDefault();
-    // Prediction logic would go here
+    // Prediction is calculated automatically as user types
   };
 
   return (
@@ -47,6 +94,51 @@ const PredictionPage = () => {
         <h1 className="text-2xl font-bold text-primary mb-2">Yield Prediction</h1>
         <p className="text-muted-foreground">उपज की भविष्यवाणी</p>
       </div>
+
+      {/* Predicted Yield Display - Top Section */}
+      {hasValidInputs && (
+        <Card className="shadow-card bg-gradient-to-r from-primary/10 to-primary-glow/10 border-primary/20">
+          <CardContent className="p-6">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <TrendingUp className="w-6 h-6 text-primary" />
+                <h2 className="text-xl font-bold text-primary">
+                  Predicted Yield / पूर्वानुमानित उपज
+                </h2>
+              </div>
+              
+              <div className="text-5xl font-bold text-primary mb-2">
+                {predictedYield} <span className="text-2xl">quintals</span>
+              </div>
+              
+              <div className="text-lg text-muted-foreground mb-4">
+                Expected total yield for {formData.acres} acres of {formData.cropType}
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div className="text-center p-3 bg-background/60 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Per Acre</p>
+                  <p className="text-xl font-bold text-primary">
+                    {Math.round((predictedYield / parseFloat(formData.acres)) * 10) / 10} quintals
+                  </p>
+                </div>
+                <div className="text-center p-3 bg-background/60 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Season</p>
+                  <p className="text-lg font-semibold capitalize">{formData.season}</p>
+                </div>
+                <div className="text-center p-3 bg-background/60 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Soil Quality</p>
+                  <p className="text-lg font-semibold capitalize">{formData.soilFertility}</p>
+                </div>
+                <div className="text-center p-3 bg-background/60 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Crop Type</p>
+                  <p className="text-lg font-semibold capitalize">{formData.cropType}</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Input Form */}
       <Card className="shadow-card">
