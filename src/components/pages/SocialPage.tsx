@@ -3,10 +3,12 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
 import { Cloud, TrendingUp, Lightbulb, Building, Heart, MessageCircle, Share } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import farmerProfile from "@/assets/farmer-profile.jpg";
 import heroImage from "@/assets/hero-agriculture.jpg";
 
 const SocialPage = () => {
+  const { t } = useLanguage();
   // Sample data
   const weatherData = [
     { day: "Mon", temp: 32, humidity: 65, rainfall: 0 },
@@ -62,14 +64,13 @@ const SocialPage = () => {
   return (
     <div className="p-4 space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-primary">Social Feed</h1>
-        <p className="text-sm text-muted-foreground">सामाजिक फ़ीड</p>
+        <h1 className="text-2xl font-bold text-primary">{t('socialFeed')}</h1>
       </div>
 
       {/* Crop Overview Mini Chart */}
       <Card className="shadow-card">
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Your Crop Overview / आपकी फसल का अवलोकन</CardTitle>
+          <CardTitle className="text-lg">{t('cropOverviewYour')}</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={120}>
@@ -101,10 +102,10 @@ const SocialPage = () => {
 
       <Tabs defaultValue="weather" className="w-full">
         <TabsList className="grid w-full grid-cols-4 text-xs">
-          <TabsTrigger value="weather">Weather</TabsTrigger>
-          <TabsTrigger value="market">Market</TabsTrigger>
-          <TabsTrigger value="tips">Tips</TabsTrigger>
-          <TabsTrigger value="schemes">Schemes</TabsTrigger>
+          <TabsTrigger value="weather">{t('weather')}</TabsTrigger>
+          <TabsTrigger value="market">{t('market')}</TabsTrigger>
+          <TabsTrigger value="tips">{t('tips')}</TabsTrigger>
+          <TabsTrigger value="schemes">{t('schemes')}</TabsTrigger>
         </TabsList>
 
         {/* Weather Tab */}
@@ -113,7 +114,7 @@ const SocialPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Cloud className="w-5 h-5 text-primary" />
-                Weather Forecast / मौसम पूर्वानुमान
+                {t('weatherForecast')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -150,7 +151,7 @@ const SocialPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-primary" />
-                Market Prices / बाजार मूल्य
+                {t('marketPrices')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -230,7 +231,7 @@ const SocialPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Building className="w-5 h-5 text-primary" />
-                Government Schemes / सरकारी योजनाएं
+                {t('governmentSchemes')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -259,13 +260,12 @@ const SocialPage = () => {
       {/* Chat Box Placeholder */}
       <Card className="shadow-card">
         <CardHeader>
-          <CardTitle className="text-lg">Community Chat / सामुदायिक चैट</CardTitle>
+          <CardTitle className="text-lg">{t('communityChat')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="p-6 text-center text-muted-foreground border-2 border-dashed border-border rounded-lg">
             <MessageCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
-            <p>Chat feature coming soon!</p>
-            <p className="text-sm">चैट सुविधा जल्द आ रही है!</p>
+            <p>{t('chatComingSoon')}</p>
           </div>
         </CardContent>
       </Card>

@@ -145,6 +145,233 @@ const translations: Translations = {
     te: 'వాస్తవ',
     ta: 'உண்மையான',
     bn: 'প্রকৃত'
+  },
+  // Crops Page
+  myCropData: {
+    en: 'My Crop Data',
+    hi: 'मेरी फसल डेटा',
+    te: 'నా పంట డేటా',
+    ta: 'என் பயிர் தரவு',
+    bn: 'আমার ফসলের তথ্য'
+  },
+  cropRegistration: {
+    en: 'Crop Registration',
+    hi: 'फसल पंजीकरण',
+    te: 'పంట నమోదు',
+    ta: 'பயிர் பதிவு',
+    bn: 'ফসল নিবন্ধন'
+  },
+  registeredCrops: {
+    en: 'Registered Crops',
+    hi: 'पंजीकृत फसलें',
+    te: 'నమోదిత పంటలు',
+    ta: 'பதிவு செய்யப்பட்ட பயிர்கள்',
+    bn: 'নিবন্ধিত ফসল'
+  },
+  suggestions: {
+    en: 'Suggestions',
+    hi: 'सुझाव',
+    te: 'సూచనలు',
+    ta: 'பரிந்துரைகள்',
+    bn: 'পরামর্শ'
+  },
+  registerNewCrop: {
+    en: 'Register New Crop',
+    hi: 'नई फसल रजिस्टर करें',
+    te: 'కొత్త పంట నమోదు చేయండి',
+    ta: 'புதிய பயிரை பதிவு செய்யுங்கள்',
+    bn: 'নতুন ফসল নিবন্ধন করুন'
+  },
+  farmerName: {
+    en: 'Farmer Name',
+    hi: 'किसान का नाम',
+    te: 'రైతు పేరు',
+    ta: 'விவசாயி பெயர்',
+    bn: 'কৃষকের নাম'
+  },
+  state: {
+    en: 'State',
+    hi: 'राज्य',
+    te: 'రాష్ట్రం',
+    ta: 'மாநிலம்',
+    bn: 'রাজ্য'
+  },
+  landArea: {
+    en: 'Land Area (acres)',
+    hi: 'भूमि क्षेत्र (एकड़)',
+    te: 'భూమి వైశాల్యం (ఎకరాలు)',
+    ta: 'நில பரப்பு (ஏக்கர்கள்)',
+    bn: 'জমির এলাকা (একর)'
+  },
+  soilFertility: {
+    en: 'Soil Fertility',
+    hi: 'मिट्टी की उर्वरता',
+    te: 'మట్టి సారవత్తా',
+    ta: 'மண்ணின் வளம்',
+    bn: 'মাটির উর্বরতা'
+  },
+  season: {
+    en: 'Season',
+    hi: 'मौसम',
+    te: 'సీజన్',
+    ta: 'பருவம்',
+    bn: 'ঋতু'
+  },
+  cropType: {
+    en: 'Crop Type',
+    hi: 'फसल प्रकार',
+    te: 'పంట రకం',
+    ta: 'பயிர் வகை',
+    bn: 'ফসলের ধরন'
+  },
+  uploadSoilPhoto: {
+    en: 'Upload Soil Photo',
+    hi: 'मिट्टी की फोटो अपलोड करें',
+    te: 'మట్టి ఫోటో అప్‌లోడ్ చేయండి',
+    ta: 'மண் புகைப்படத்தை பதிவேற்றவும்',
+    bn: 'মাটির ছবি আপলোড করুন'
+  },
+  submitRegistration: {
+    en: 'Submit Registration',
+    hi: 'रजिस्ट्रेशन सबमिट करें',
+    te: 'రిజిస్ట్రేషన్ సબ్మిట్ చేయండి',
+    ta: 'பதிவை சமர்ப்பிக்கவும்',
+    bn: 'নিবন্ধন জমা দিন'
+  },
+  aiSuggestions: {
+    en: 'AI Suggestions',
+    hi: 'AI सुझाव',
+    te: 'AI సూచనలు',
+    ta: 'AI பரிந்துரைகள்',
+    bn: 'AI পরামর্শ'
+  },
+  // Social Page
+  socialFeed: {
+    en: 'Social Feed',
+    hi: 'सामाजिक फ़ीड',
+    te: 'సోషల్ ఫీడ్',
+    ta: 'சமூக ஊட்டம்',
+    bn: 'সামাজিক ফিড'
+  },
+  cropOverviewYour: {
+    en: 'Your Crop Overview',
+    hi: 'आपकी फसल का अवलोकन',
+    te: 'మీ పంట అవలోకనం',
+    ta: 'உங்கள் பயிர் கண்ணோட்டம்',
+    bn: 'আপনার ফসলের ওভারভিউ'
+  },
+  weather: {
+    en: 'Weather',
+    hi: 'मौसम',
+    te: 'వాతావరణం',
+    ta: 'வானிலை',
+    bn: 'আবহাওয়া'
+  },
+  market: {
+    en: 'Market',
+    hi: 'बाजार',
+    te: 'మార్కెట్',
+    ta: 'சந்தை',
+    bn: 'বাজার'
+  },
+  tips: {
+    en: 'Tips',
+    hi: 'सुझाव',
+    te: 'చిట్కాలు',
+    ta: 'குறிப்புகள்',
+    bn: 'টিপস'
+  },
+  schemes: {
+    en: 'Schemes',
+    hi: 'योजनाएं',
+    te: 'పథకాలు',
+    ta: 'திட்டங்கள்',
+    bn: 'স্কিম'
+  },
+  weatherForecast: {
+    en: 'Weather Forecast',
+    hi: 'मौसम पूर्वानुमान',
+    te: 'వాతావరణ అంచనా',
+    ta: 'வானிலை முன்னறிவிப்பு',
+    bn: 'আবহাওয়ার পূর্বাভাস'
+  },
+  governmentSchemes: {
+    en: 'Government Schemes',
+    hi: 'सरकारी योजनाएं',
+    te: 'ప్రభుత్వ పథకాలు',
+    ta: 'அரசு திட்டங்கள்',
+    bn: 'সরকারি স্কিম'
+  },
+  communityChat: {
+    en: 'Community Chat',
+    hi: 'सामुदायिक चैट',
+    te: 'కమ్యూనిటీ చాట్',
+    ta: 'சமூக அரட்டை',
+    bn: 'কমিউনিটি চ্যাট'
+  },
+  chatComingSoon: {
+    en: 'Chat feature coming soon!',
+    hi: 'चैट सुविधा जल्द आ रही है!',
+    te: 'చాట్ ఫీచర్ త్వరలో వస్తుంది!',
+    ta: 'அரட்டை அம்சம் விரைவில் வரும்!',
+    bn: 'চ্যাট ফিচার শীঘ্রই আসছে!'
+  },
+  // Prediction Page
+  yieldPrediction: {
+    en: 'Yield Prediction',
+    hi: 'उपज की भविष्यवाणी',
+    te: 'దిగుబడి అంచనా',
+    ta: 'விளைச்சல் கணிப்பு',
+    bn: 'ফলন পূর্বাভাস'
+  },
+  predictedYield: {
+    en: 'Predicted Yield',
+    hi: 'पूर्वानुमानित उपज',
+    te: 'అంచన వేసిన దిగుబడి',
+    ta: 'கணிக்கப்பட்ட விளைச்சல்',
+    bn: 'প্রত্যাশিত ফলন'
+  },
+  predictionInput: {
+    en: 'Prediction Input',
+    hi: 'भविष्यवाणी इनपुट',
+    te: 'అంచనా ఇన్‌పుట్',
+    ta: 'கணிப்பு உள்ளீடு',
+    bn: 'পূর্বাভাস ইনপুট'
+  },
+  myCropYieldPrediction: {
+    en: 'My Crop Yield Prediction',
+    hi: 'मेरी फसल उपज की भविष्यवाणी',
+    te: 'నా పంట దిగుబడి అంచనా',
+    ta: 'என் பயிர் விளைச்சல் கணிப்பு',
+    bn: 'আমার ফসলের ফলন পূর্বাভাস'
+  },
+  stateYieldComparison: {
+    en: 'State Yield Comparison',
+    hi: 'राज्य उपज तुलना',
+    te: 'రాష్ట్ర దిగుబడి పోలిక',
+    ta: 'மாநில விளைச்சல் ஒப்பீடு',
+    bn: 'রাজ্য ফলন তুলনা'
+  },
+  predictionResult: {
+    en: 'Prediction Result',
+    hi: 'भविष्यवाणी परिणाम',
+    te: 'అంచనా ఫలితం',
+    ta: 'கணிப்பு முடிவு',
+    bn: 'পূর্বাভাসের ফলাফল'
+  },
+  statePerformanceAnalysis: {
+    en: 'State Performance Analysis',
+    hi: 'राज्य प्रदर्शन विश्लेषण',
+    te: 'రాష్ట్ర పనితీరు విశ్లేషణ',
+    ta: 'மாநில செயல்திறன் பகுப்பாய்வு',
+    bn: 'রাজ্য কর্মক্ষমতা বিশ্লেষণ'
+  },
+  stateData: {
+    en: 'State Data',
+    hi: 'राज्य डेटा',
+    te: 'రాష్ట్ర డేटా',
+    ta: 'மாநில தரவு',
+    bn: 'রাজ্য ডেটা'
   }
 };
 

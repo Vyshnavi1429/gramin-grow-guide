@@ -9,11 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Calendar, MapPin, Droplets, Bug, AlertCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useCrop } from "@/contexts/CropContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { indianStates, cropTypes, seasons, soilFertilityLevels } from "@/data/constants";
 import cropsImage from "@/assets/crops-variety.jpg";
 
 const CropsPage = () => {
   const { registeredCrops, addCrop } = useCrop();
+  const { t } = useLanguage();
   const [selectedCrop, setSelectedCrop] = useState("");
   const [formData, setFormData] = useState({
     farmerName: "",
@@ -62,13 +64,13 @@ const CropsPage = () => {
 
   return (
     <div className="p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-primary mb-4">My Crop Data / मेरी फसल डेटा</h1>
+      <h1 className="text-2xl font-bold text-primary mb-4">{t('myCropData')}</h1>
       
       <Tabs defaultValue="registration" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="registration">Crop Registration</TabsTrigger>
-          <TabsTrigger value="registered">Registered Crops</TabsTrigger>
-          <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
+          <TabsTrigger value="registration">{t('cropRegistration')}</TabsTrigger>
+          <TabsTrigger value="registered">{t('registeredCrops')}</TabsTrigger>
+          <TabsTrigger value="suggestions">{t('suggestions')}</TabsTrigger>
         </TabsList>
 
         {/* Crop Registration */}
@@ -77,14 +79,14 @@ const CropsPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Plus className="w-5 h-5 text-primary" />
-                Register New Crop / नई फसल रजिस्टर करें
+                {t('registerNewCrop')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="farmerName">Farmer Name / किसान का नाम *</Label>
+                    <Label htmlFor="farmerName">{t('farmerName')} *</Label>
                     <Input
                       id="farmerName"
                       value={formData.farmerName}
@@ -94,7 +96,7 @@ const CropsPage = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="state">State / राज्य *</Label>
+                    <Label htmlFor="state">{t('state')} *</Label>
                     <Select value={formData.state} onValueChange={(value) => setFormData({...formData, state: value})}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select state" />
@@ -109,7 +111,7 @@ const CropsPage = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="landArea">Land Area (acres) / भूमि क्षेत्र *</Label>
+                    <Label htmlFor="landArea">{t('landArea')} *</Label>
                     <Input
                       id="landArea"
                       type="number"
@@ -120,7 +122,7 @@ const CropsPage = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="soilFertility">Soil Fertility / मिट्टी की उर्वरता *</Label>
+                    <Label htmlFor="soilFertility">{t('soilFertility')} *</Label>
                     <Select value={formData.soilFertility} onValueChange={(value) => setFormData({...formData, soilFertility: value})}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select fertility level" />
@@ -135,7 +137,7 @@ const CropsPage = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="season">Season / मौसम *</Label>
+                    <Label htmlFor="season">{t('season')} *</Label>
                     <Select value={formData.season} onValueChange={(value) => setFormData({...formData, season: value})}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select season" />
@@ -150,7 +152,7 @@ const CropsPage = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="cropType">Crop Type / फसल प्रकार *</Label>
+                    <Label htmlFor="cropType">{t('cropType')} *</Label>
                     <Select value={formData.cropType} onValueChange={(value) => setFormData({...formData, cropType: value})}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select crop" />
@@ -167,7 +169,7 @@ const CropsPage = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label>Upload Soil Photo / मिट्टी की फोटो अपलोड करें</Label>
+                  <Label>{t('uploadSoilPhoto')}</Label>
                   <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
                     <img src={cropsImage} alt="Sample" className="w-24 h-24 mx-auto mb-2 rounded-lg object-cover" />
                     <p className="text-sm text-muted-foreground">Click to upload soil photo</p>
@@ -175,7 +177,7 @@ const CropsPage = () => {
                 </div>
                 
                 <Button type="submit" className="w-full bg-gradient-to-r from-primary to-primary-glow">
-                  Submit Registration / रजिस्ट्रेशन सबमिट करें
+                  {t('submitRegistration')}
                 </Button>
               </form>
             </CardContent>
@@ -250,7 +252,7 @@ const CropsPage = () => {
         <TabsContent value="suggestions" className="space-y-4">
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle>AI Suggestions / AI सुझाव</CardTitle>
+              <CardTitle>{t('aiSuggestions')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {suggestions.map((suggestion, index) => {

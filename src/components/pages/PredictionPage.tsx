@@ -6,9 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from "recharts";
 import { TrendingUp, BarChart3, MapPin, Crop } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { indianStates, cropTypes, seasons, soilFertilityLevels } from "@/data/constants";
 
 const PredictionPage = () => {
+  const { t } = useLanguage();
   const [predictionType, setPredictionType] = useState("my-crop");
   const [formData, setFormData] = useState({
     state: "",
@@ -111,8 +113,7 @@ const PredictionPage = () => {
   return (
     <div className="p-4 space-y-6">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-primary mb-2">Yield Prediction</h1>
-        <p className="text-muted-foreground">उपज की भविष्यवाणी</p>
+        <h1 className="text-2xl font-bold text-primary mb-2">{t('yieldPrediction')}</h1>
       </div>
 
       {/* Predicted Yield Display - Top Section */}
@@ -123,7 +124,7 @@ const PredictionPage = () => {
               <div className="flex items-center justify-center gap-2 mb-4">
                 <TrendingUp className="w-6 h-6 text-primary" />
                 <h2 className="text-xl font-bold text-primary">
-                  Predicted Yield / पूर्वानुमानित उपज
+                  {t('predictedYield')}
                 </h2>
               </div>
               
@@ -165,14 +166,14 @@ const PredictionPage = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Crop className="w-5 h-5 text-primary" />
-            Prediction Input / भविष्यवाणी इनपुट
+            {t('predictionInput')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handlePredict} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="state">State / राज्य</Label>
+                <Label htmlFor="state">{t('state')}</Label>
                 <Select value={formData.state} onValueChange={(value) => setFormData({...formData, state: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select state" />
@@ -187,7 +188,7 @@ const PredictionPage = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="acres">Land Area (acres) / भूमि क्षेत्र</Label>
+                <Label htmlFor="acres">{t('landArea')}</Label>
                 <Input
                   id="acres"
                   type="number"
@@ -197,7 +198,7 @@ const PredictionPage = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="cropType">Crop Type / फसल प्रकार</Label>
+                <Label htmlFor="cropType">{t('cropType')}</Label>
                 <Select value={formData.cropType} onValueChange={(value) => setFormData({...formData, cropType: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select crop" />
@@ -212,7 +213,7 @@ const PredictionPage = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="season">Season / मौसम</Label>
+                <Label htmlFor="season">{t('season')}</Label>
                 <Select value={formData.season} onValueChange={(value) => setFormData({...formData, season: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select season" />
@@ -227,7 +228,7 @@ const PredictionPage = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="soilFertility">Soil Fertility / मिट्टी की उर्वरता</Label>
+                <Label htmlFor="soilFertility">{t('soilFertility')}</Label>
                 <Select value={formData.soilFertility} onValueChange={(value) => setFormData({...formData, soilFertility: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select fertility level" />
@@ -263,8 +264,7 @@ const PredictionPage = () => {
           className="h-16 flex flex-col gap-1"
         >
           <TrendingUp className="w-5 h-5" />
-          <span>My Crop Data</span>
-          <span className="text-xs opacity-70">मेरी फसल डेटा</span>
+          <span>{t('myCrops')}</span>
         </Button>
         
         <Button
@@ -273,8 +273,7 @@ const PredictionPage = () => {
           className="h-16 flex flex-col gap-1"
         >
           <MapPin className="w-5 h-5" />
-          <span>State Data</span>
-          <span className="text-xs opacity-70">राज्य डेटा</span>
+          <span>{t('stateData')}</span>
         </Button>
       </div>
 
@@ -284,7 +283,7 @@ const PredictionPage = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LineChart className="w-5 h-5 text-primary" />
-              My Crop Yield Prediction / मेरी फसल उपज की भविष्यवाणी
+              {t('myCropYieldPrediction')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -313,16 +312,13 @@ const PredictionPage = () => {
             <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-primary mb-2">
-                  Prediction Result / भविष्यवाणी परिणाम
+                  {t('predictionResult')}
                 </h3>
                 <div className="text-3xl font-bold text-primary mb-1">
                   {hasValidInputs ? `${predictedYield} quintals` : 'Enter crop details above'}
                 </div>
                 <p className="text-muted-foreground">
                   {hasValidInputs ? 'Expected yield for your next harvest' : 'Fill in the form to see prediction'}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {hasValidInputs ? 'आपकी अगली फसल की अपेक्षित उपज' : 'भविष्यवाणी देखने के लिए फॉर्म भरें'}
                 </p>
               </div>
             </div>
@@ -346,7 +342,7 @@ const PredictionPage = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-primary" />
-              State Yield Comparison / राज्य उपज तुलना
+              {t('stateYieldComparison')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -360,7 +356,7 @@ const PredictionPage = () => {
             </ResponsiveContainer>
             
             <div className="mt-4 space-y-2">
-              <h4 className="font-semibold">State Performance Analysis / राज्य प्रदर्शन विश्लेषण</h4>
+              <h4 className="font-semibold">{t('statePerformanceAnalysis')}</h4>
               {stateData.map((item, index) => (
                 <div key={index} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                   <span className="font-medium">{item.crop}</span>
